@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import CreateChannel from "../views/CreateChannel.vue";
+import CreateChannelApp from "../views/CreateChannelApp.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +18,7 @@ const router = createRouter({
         {
             path: "/create",
             name: "create",
-            component: CreateChannel,
+            component: CreateChannelApp,
         },
         
     ],

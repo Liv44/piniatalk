@@ -1,8 +1,28 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue";
+import { createChannel } from "../CRUD/channel";
+
+defineProps({
+  isUpdated: Boolean,
+});
+
+const channelName = ref("");
+const channeImage = ref("");
+
+const channel = ref({
+  name: "updateChannel",
+  image: "singe.png",
+  theme: "",
+});
+
+const create = async () => {
+  await createChannel(channelName.value, channeImage.value);
+};
+</script>
 
 <template>
   <div class="createChannel">
-    <h1>Créer un salon</h1>
+    <h1>{{ isUpdated ? "Modifier le salon" : "Créer un salon" }}</h1>
 
     <label for="channelName">Nom du salon</label>
     <input
@@ -10,16 +30,17 @@
       name="channelName"
       class="inputChannel"
       required
-      placeholder="Nom du salon"
+      :placeholder="isUpdated ? channel.name : 'Nom du salon'"
+      v-model="channelName"
     />
-
+    <!-- 
     <label for="theme">Thème du salon</label>
     <select class="inputChannel" name="theme">
       <option value="red">Red</option>
       <option value="yellow">Yellow</option>
       <option value="green">Green</option>
       <option value="black">Black</option>
-    </select>
+    </select> -->
 
     <label for="channelPicture">Image du salon</label>
     <input
@@ -28,9 +49,11 @@
       class="inputChannel"
       required
       placeholder="Image du salon"
+      v-model="channeImage"
     />
-    <div class="button">
-      <button class="buttonCreate">Créer</button>
+    <div class="buttons">
+      <button class="delete" v-if="isUpdated">Supprimer</button>
+      <button class="create" @click="create">Créer</button>
     </div>
   </div>
 </template>
@@ -65,8 +88,7 @@ label {
   padding-left: 0.5rem;
 }
 
-.buttonCreate {
-  background-color: #51a256;
+button {
   color: white;
   height: 3rem;
   border-radius: 10px;
@@ -76,9 +98,16 @@ label {
   font-weight: bold;
   margin-top: 1rem;
 }
+.create {
+  background-color: rgb(81, 162, 86);
+}
+.delete {
+  background-color: rgb(220, 49, 49);
+}
 
-.button {
+.buttons {
   display: flex;
   justify-content: center;
+  gap: 1rem;
 }
 </style>
