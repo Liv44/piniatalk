@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import { watchEffect } from "vue";
+import Logout from "../components/Logout.vue";
 import router from "../router";
 
 const token = sessionStorage.getItem("token");
-
-const onClickClear = () => {
-    sessionStorage.clear();
-    router.push("/");
-};
 </script>
 
 <template>
     <div class="about">
         <h1>{{ !token ? "Not loggin" : "Successful login" }}</h1>
-        <button @click="onClickClear">Logout</button>
+        <Logout />
     </div>
 </template>
 
