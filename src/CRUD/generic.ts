@@ -2,14 +2,18 @@ import axios from "axios";
 
 const baseURL = "https://edu.tardigrade.land/msg/";
 
-export const postLogin = (endPoint: string) => {
+export const postLogin = (
+    endPoint: string,
+    username: string,
+    password: string
+) => {
     try {
         return axios
             .post(
                 baseURL + endPoint,
                 {
-                    username: "e.dumont",
-                    password: "5fd6cdd6cced416f",
+                    username: username,
+                    password: password,
                 },
                 {
                     headers: {

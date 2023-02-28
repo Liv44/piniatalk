@@ -10,8 +10,8 @@ const router = createRouter({
             component: HomeView,
         },
         {
-            path: "/test",
-            name: "test",
+            path: "/piniatalk",
+            name: "piniatalk",
             component: () => import("../views/AboutView.vue"),
         },
     ],
