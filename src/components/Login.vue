@@ -12,7 +12,7 @@ const onClickLogin = async () => {
             alert("Username or password is empty");
         } else {
             await postLogin("login", username.value, password.value);
-            router.push("/piniatalk");
+            router.push("/create");
         }
     } catch (error) {
         console.log(error);
