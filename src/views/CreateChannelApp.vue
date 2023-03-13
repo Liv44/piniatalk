@@ -3,7 +3,7 @@ import CreateChannel from "../components/CreateChannel.vue";
 </script>
 
 <template>
-  <CreateChannel :is-updated="true" />
+  <CreateChannel :is-updated="false" />
 </template>
 
 <style scoped></style>

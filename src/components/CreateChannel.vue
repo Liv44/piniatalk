@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { createChannel } from "../CRUD/channel";
+import { themes } from "../utils/themes";
 
 defineProps({
   isUpdated: Boolean,
@@ -8,11 +9,33 @@ defineProps({
 
 const channelName = ref("");
 const channeImage = ref("");
+const channelColors = ref(themes);
 
 const channel = ref({
   name: "updateChannel",
   image: "singe.png",
-  theme: "",
+  themes: [
+    {
+      name: "Default",
+      colors: {
+        primary_color: "#E91E63",
+        primary_color_dark: "#C2185B",
+        accent_color: "#00BCD4",
+        text_color: "#212121",
+        accent_text_color: "#FFFFFF",
+      },
+    },
+    {
+      name: "Jeff",
+      colors: {
+        primary_color: "#E91E63",
+        primary_color_dark: "#C2185B",
+        accent_color: "#00BCD4",
+        text_color: "#212121",
+        accent_text_color: "#FFFFFF",
+      },
+    },
+  ],
 });
 
 const create = async () => {
@@ -33,14 +56,16 @@ const create = async () => {
       :placeholder="isUpdated ? channel.name : 'Nom du salon'"
       v-model="channelName"
     />
-    <!-- 
+
     <label for="theme">Thème du salon</label>
     <select class="inputChannel" name="theme">
-      <option value="red">Red</option>
-      <option value="yellow">Yellow</option>
-      <option value="green">Green</option>
-      <option value="black">Black</option>
-    </select> -->
+      <option
+        v-for="(data, index) of channel.themes.map((theme) => theme.name)"
+        :value="data"
+      >
+        {{ data }}
+      </option>
+    </select>
 
     <label for="channelPicture">Image du salon</label>
     <input
