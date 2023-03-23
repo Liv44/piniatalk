@@ -1,17 +1,7 @@
 <script setup lang="ts">
-// import { storeToRefs } from "pinia";
-import { computed } from "vue";
-import Chat from "../components/chat.vue";
-import { useMessageStore } from "../store/store";
-
-const store = useMessageStore();
-// const { name } = storeToRefs(store)
-
-// ✅ this one will be reactive
-// 💡 but you could also just use `store.doubleCount` directly
-const messageValue = computed(() => store.displayName);
-// const userList = computed(() => store.userList);
+import Chat from "../components/Chat.vue";
 </script>
+
 <template>
   <div class="top_chat">
     <ul>
@@ -24,7 +14,6 @@ const messageValue = computed(() => store.displayName);
   </div>
   <div class="chat">
     <Chat></Chat>
-    <p>{{ messageValue }}</p>
   </div>
 </template>
 

@@ -1,11 +1,32 @@
 <script setup lang="ts">
-import { defineStore } from "pinia";
+import { ref, reactive } from "vue";
+import { addMessage } from "../CRUD/message";
+
+const message = ref("");
+const author = ref("Luke");
+const timestamp = ref(Math.floor(new Date().getTime() / 1000));
+
+const createMessage = async () => {
+  // await addMessage(timestamp, message.value, author);
+  console.log(timestamp.value);
+  console.log(message.value);
+  console.log(author.value);
+};
 </script>
 
 <template>
   <div class="block_chat">
-    <input class="input" type="text" placeholder="Message...." />
-    <button>Send</button>
+    <div class="message">
+      {{ message }}
+    </div>
+    <input
+      class="input"
+      type="text"
+      v-model="message"
+      required
+      placeholder="Message...."
+    />
+    <button @click="createMessage">Send</button>
   </div>
 </template>
 
