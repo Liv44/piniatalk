@@ -35,7 +35,7 @@ export const deleteChannel = async (channel_id: number) => {
         {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
         }
     );
@@ -53,7 +53,7 @@ export const addUserToChannel = async (channel_id: number, user_id: string) => {
         {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
         }
     );
@@ -61,13 +61,13 @@ export const addUserToChannel = async (channel_id: number, user_id: string) => {
 };
 
 /* Ban a user */
-export const banUser = async (channel_id: number, user_id: string) => {
+export const banUserToChannel = async (channel_id: number, user_id: string) => {
     const response = await axios.delete(
         `${baseURL}/protected/channel/${channel_id}/user/${user_id}`,
         {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
         }
     );

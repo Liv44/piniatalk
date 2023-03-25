@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import CreateChannelApp from "../views/CreateChannelApp.vue";
 import ChannelVue from "../components/Channel.vue";
 import ManageChannelApp from "../views/ManageChannelApp.vue";
+import DeleteChannelApp from "../views/DeleteChannelApp.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
             path: "/manage",
             name: "manage",
             component: ManageChannelApp,
+        },
+        {
+            path: "/delete",
+            name: "delete",
+            component: DeleteChannelApp ,
         },
         
         
