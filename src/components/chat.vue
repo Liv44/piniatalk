@@ -1,46 +1,200 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { addMessage } from "../CRUD/message";
+import { useMessageStore } from "../CRUD/message";
+import { storeToRefs } from "pinia";
+
+const store = useMessageStore();
+const { messageList } = storeToRefs(store);
+const { addMessage } = store;
 
 const message = ref("");
+const timestamp = ref(new Date());
 const author = ref("Luke");
-const timestamp = ref(Math.floor(new Date().getTime() / 1000));
+const channel_id = ref(96);
+const image = ref("");
 
-const createMessage = async () => {
-  // await addMessage(timestamp, message.value, author);
-  console.log(timestamp.value);
-  console.log(message.value);
-  console.log(author.value);
+const onChange = (event) => {
+  const file = event.target.files[0];
+  image.value = URL.createObjectURL(file);
 };
+
+const add = async () => {
+  if (message.value && !image.value) {
+    addMessage(channel_id.value, { type: "text", data: message.value });
+    // this.$refs.textInput.reset();
+  } else if (image.value && !message.value) {
+    addMessage(channel_id.value, { type: "file", data: image.value });
+    // this.$refs.fileInput.reset();
+  } else {
+    alert("Entrez soit du texte, soit une image.");
+    console.log("Entrez soit du texte, soit une image.");
+  }
+};
+
+// const onScrollTop = () => {
+//   const messageTop = this.$refs.chatList.scrollTop;
+//   if (messageTop === 0) {
+//     // loadMoreMessages();
+//   }
+// };
 </script>
 
 <template>
   <div class="block_chat">
+    <!-- <button @click="loadMoreMessages">Voir les messages précédents</button> -->
     <div class="message">
-      {{ message }}
+      <div
+        class="message-list"
+        v-for="(messages, index) of messageList"
+        :key="index"
+      >
+        <div class="message-content">
+          <div class="message-header">
+            <div class="user-img">
+              <img src="../assets/luke3.JPG" />
+            </div>
+            <!-- <h4 class="username">{{ messages.author }}</h4> -->
+            <!-- <span class="timestamp">{{
+              new Date(messages.timestamp * 1000)
+            }}</span> -->
+          </div>
+          <p class="chat-message" v-if="messages.text">
+            {{ messages.text }}
+          </p>
+          <img
+            v-if="messages.image"
+            :src="messages.image"
+            style="height: auto; width: auto; max-height: 300px"
+          />
+          <!-- {{ messages.channel_id }} -->
+        </div>
+      </div>
     </div>
-    <input
-      class="input"
-      type="text"
-      v-model="message"
-      required
-      placeholder="Message...."
-    />
-    <button @click="createMessage">Send</button>
+    <div class="chat-input">
+      <label for="file-input">
+        <i
+          class="bi bi-plus-circle"
+          style="font-size: 1.5rem; color: white; margin-right: 10px"
+        >
+          <input
+            type="file"
+            id="file-input"
+            accept="image/*"
+            ref="fileInput"
+            @change="onChange"
+            style="display: none"
+          />
+        </i>
+      </label>
+      <input
+        class="input"
+        type="text"
+        v-model="message"
+        ref="textInput"
+        required
+        placeholder="Message...."
+      />
+      <button @click="add">Send</button>
+    </div>
   </div>
 </template>
 
 <style>
 .block_chat {
-  width: 100%;
-  height: auto;
+  position: fixed;
+  background-color: #c9c9c9;
+  top: 100px;
+  margin: auto;
+  height: 750px;
+  overflow: auto;
+  border-radius: 10px;
+  padding: 10px;
 }
 
-.input {
-  width: 80%;
-  background-color: #070606;
-  height: 100%;
+/* User image */
+.user-img {
+  margin-right: 10px;
+}
+
+.user-img img {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+
+/* Message list*/
+.message {
+  overflow-y: scroll;
+}
+
+.message-list {
+  display: flex;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+/* Message Content */
+.message-content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Message Header */
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.message-header .username {
+  color: #353030;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.message-header .timestamp {
+  color: #8a8a8a;
+}
+
+/* Message Text */
+.chat-message {
+  color: black;
+  margin: 0;
+}
+
+/* Chat Input */
+.chat-input {
+  position: fixed;
+  bottom: 0;
+  left: 300px;
+  right: 0;
+  width: auto;
+  align-items: center;
+  padding: 10px;
+  background-color: #353030;
+  border-radius: 10px;
+}
+
+.chat-input input[type="text"] {
   border: none;
   border-radius: 10px;
+  padding: 10px;
+  margin-right: 10px;
+  width: 90%;
+}
+
+.chat-input button {
+  background-color: #ffe46b;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.chat-input input[type="file"] {
+  border: none;
+  width: 16px;
+  height: 16px;
 }
 </style>

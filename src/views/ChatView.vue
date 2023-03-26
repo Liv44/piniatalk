@@ -3,7 +3,7 @@ import Chat from "../components/Chat.vue";
 </script>
 
 <template>
-  <div class="top_chat">
+  <!-- <div class="top_chat">
     <ul>
       <li style="float: left">
         <a class="channel_name">Salon n°1</a>
@@ -11,7 +11,7 @@ import Chat from "../components/Chat.vue";
       <li style="float: right"><a>Gérer les utilisateurs</a></li>
       <li style="float: right"><a>Paramètres du salon</a></li>
     </ul>
-  </div>
+  </div> -->
   <div class="chat">
     <Chat></Chat>
   </div>
@@ -44,13 +44,8 @@ li a {
   color: black;
 }
 
-.chat {
-  display: flex;
-  flex-direction: column;
-  background-color: #c9c9c9;
-  border-radius: 10px;
-  width: 1000px;
-  height: 1000px;
+body {
+  overflow: hidden;
 }
 
 @media (min-width: 1024px) {

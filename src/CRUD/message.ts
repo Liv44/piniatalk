@@ -1,6 +1,8 @@
 import axios from "axios";
+import { ref, reactive } from "vue";
+import { defineStore } from "pinia"
 
-const baseURL = "https://edu.tardigrade.land/msg/";
+const baseURL = "https://edu.tardigrade.land/msg";
 
 export const postLogin = (endPoint: string) => {
     try {
@@ -23,34 +25,69 @@ export const postLogin = (endPoint: string) => {
     }
 };
 
-/* Add message*/
-// channel_id: number,
-// `${baseURL}/protected/channel/${channel_id}/message`
-export const addMessage = async (timestamp: number, author: string, content: object) => {
-    const response = await axios.post(
-        `${baseURL}/protected/message`,
-        {
-            timestamp,
-            author,
-            content
-        },
-        {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        }
-    );
-    return response.data;
-};
+interface Message {
+    content?: object
+  }
 
-/* Get messages*/
-export const getMessages = async (channel_id: number, batch_offset: number) => {
-    const response = await axios.get(`${baseURL}/protected/channel/${channel_id}/messages/${batch_offset}`, {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+export const useMessageStore = defineStore("messageList", {
+    state : () => ({
+        messageList: [] as Message[],
+        id: 0,
+        error: null
+    }),
+    actions: {
+
+        /* POST messages*/
+        async addMessage(channel_id: number, content?: object){
+
+            try {
+                if ( content?.type === 'text') {
+                const response = await axios.post(`${baseURL}/protected/channel/${channel_id}/message`,
+                    {
+                    "Text": content?.data,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                        },
+                    }
+                );
+                    console.log(response.data);
+                    return response.data;
+
+                } else if( content?.type === 'file')  {
+                    const response = await axios.post(`${baseURL}/protected/channel/${channel_id}/message`,
+                    {
+                    "Image": content?.data,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                        },
+                    }
+                );
+                    console.log(response.data);
+                    return response.data;
+                }  else {
+                    console.log('Entrez soit du texte, soit une image.');
+                }     
+            } catch(error) {
+                console.log("Error" + error)
+            }
         },
-    });
-    return response.data;
-};
+
+        /* GET   messages*/
+        async getMessages(channel_id: number, batch_offset: number){
+            const response = await axios.get(`${baseURL}/protected/channel/${channel_id}/messages/${batch_offset}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                },
+            });
+            return response.data;
+        }
+    }  
+})
+
