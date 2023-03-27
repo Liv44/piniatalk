@@ -12,36 +12,33 @@ const timestamp = ref(new Date());
 const author = ref("Luke");
 const channel_id = ref(96);
 const image = ref("");
+const inputFile = ref(null);
 
-const onChange = (event) => {
-  const file = event.target.files[0];
+const onChange = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  const file = input.files![0];
   image.value = URL.createObjectURL(file);
 };
 
 const add = async () => {
-  if (message.value && !image.value) {
+  const image = (inputFile.value as unknown as HTMLInputElement).value;
+  if (message.value && !image) {
     addMessage(channel_id.value, { type: "text", data: message.value });
-    // this.$refs.textInput.reset();
-  } else if (image.value && !message.value) {
-    addMessage(channel_id.value, { type: "file", data: image.value });
-    // this.$refs.fileInput.reset();
+    message.value = "";
+  } else if (image && !message.value) {
+    addMessage(channel_id.value, { type: "file", data: image });
+    (inputFile.value as unknown as HTMLInputElement).value = "";
   } else {
     alert("Entrez soit du texte, soit une image.");
     console.log("Entrez soit du texte, soit une image.");
+    (inputFile.value as unknown as HTMLInputElement).value = "";
+    message.value = "";
   }
 };
-
-// const onScrollTop = () => {
-//   const messageTop = this.$refs.chatList.scrollTop;
-//   if (messageTop === 0) {
-//     // loadMoreMessages();
-//   }
-// };
 </script>
 
 <template>
   <div class="block_chat">
-    <!-- <button @click="loadMoreMessages">Voir les messages précédents</button> -->
     <div class="message">
       <div
         class="message-list"
@@ -78,11 +75,11 @@ const add = async () => {
         >
           <input
             type="file"
+            ref="inputFile"
             id="file-input"
             accept="image/*"
-            ref="fileInput"
-            @change="onChange"
             style="display: none"
+            @change="onChange"
           />
         </i>
       </label>
@@ -90,7 +87,6 @@ const add = async () => {
         class="input"
         type="text"
         v-model="message"
-        ref="textInput"
         required
         placeholder="Message...."
       />
