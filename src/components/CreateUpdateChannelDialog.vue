@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onUpdated, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { createChannel, updateChannel } from "../CRUD/channel";
 import { themes } from "../utils/themes";
 import { useChannelStore } from "../store/channelStore";
-import { ChannelType } from "../store/channelStore";
 import { GDialog } from "gitart-vue-dialog";
 import DeleteChannel from "./DeleteChannel.vue";
+import { ThemesTypes } from "../utils/types";
 
 const props = defineProps({
   isUpdating: Boolean,
@@ -18,8 +18,14 @@ const channelName = ref(
 const channelImage = ref(
   props.isUpdating ? channelStore.selectedChannel.img : ""
 );
+
+const findThemeFromChannel = () => {
+  return themes.find((theme: ThemesTypes) => {
+    return channelStore.selectedChannel.theme === theme;
+  });
+};
 const channelColors = ref(
-  props.isUpdating ? channelStore.selectedChannel.theme : themes[0]
+  props.isUpdating ? findThemeFromChannel() : themes[0]
 );
 const openDeleteDialog = ref(false);
 
@@ -27,7 +33,7 @@ watch(channelStore, () => {
   if (props.isUpdating) {
     channelName.value = channelStore.selectedChannel.name;
     channelImage.value = channelStore.selectedChannel.img;
-    channelColors.value = channelStore.selectedChannel.theme;
+    channelColors.value = findThemeFromChannel();
   }
 });
 
@@ -37,13 +43,13 @@ const create = async () => {
   await createChannel(
     channelName.value!,
     channelImage.value,
-    channelColors.value
+    channelColors.value!
   ).then((res) => {
     channelStore.addChannel({
       creator: sessionStorage.getItem("username")!,
       name: channelName.value,
       img: channelImage.value,
-      theme: channelColors.value,
+      theme: channelColors.value!,
       id: res,
       users: [sessionStorage.getItem("username")!],
     });
@@ -59,13 +65,14 @@ const update = async () => {
   await updateChannel(
     channelStore.selectedChannel.id,
     channelName.value,
-    channelImage.value
+    channelImage.value,
+    channelColors.value!.colors
   );
   channelStore.updateChannel({
     creator: channelStore.selectedChannel.creator,
     name: channelName.value,
     img: channelImage.value,
-    theme: channelColors.value,
+    theme: channelColors.value!,
     id: channelStore.selectedChannel.id,
     users: channelStore.selectedChannel.users,
   });

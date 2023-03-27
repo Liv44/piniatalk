@@ -23,7 +23,6 @@ export const useChannelStore = defineStore('channel', {
         },
         setSelectedChannel(channelId: number) {
             const channelFound = this.channels.find((channel) => { return channel.id === channelId });
-
             this.selectedChannel = channelFound!;
         },
         addChannel(channel: ChannelType) {
@@ -33,7 +32,6 @@ export const useChannelStore = defineStore('channel', {
             let updatedChannelId = this.channels.findIndex((channel) => { return channel.id === upChannel.id })
             this.channels[updatedChannelId] = upChannel;
             this.selectedChannel = upChannel;
-
         }, 
         deleteChannel(channelId: number) {
             this.channels = this.channels.filter((channel) => { return channel.id !== channelId });
@@ -47,6 +45,10 @@ export const useChannelStore = defineStore('channel', {
             let channelFound = this.channels.find((channel) => { return channel.id === channelId });
             channelFound!.users = channelFound!.users.filter((user) => { return user !== userId });
             this.updateChannel(channelFound!);
+        },
+        channelExist (channelId : number) {
+            let channelFound = this.channels.find((channel) => { return channel.id === channelId });
+            return channelFound !== undefined;
         }
     }
 })

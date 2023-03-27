@@ -4,15 +4,28 @@ import { useChannelStore } from "../store/channelStore";
 import CreateChannelDialog from "./CreateUpdateChannelDialog.vue";
 import { GDialog } from "gitart-vue-dialog";
 import ManageUsersDialog from "./ManageUsersDialog.vue";
+import { useRoute, useRouter } from "vue-router";
 
 const username = ref(sessionStorage.getItem("username"));
+const route = useRoute();
+const router = useRouter();
 const channelStore = useChannelStore();
 const openParamsDialog = ref(false);
 const openManageUsersDialog = ref(false);
+
+const channelExist = () => {
+  if (!channelStore.channelExist(parseInt(route.params.id as string))) {
+    router.push({
+      name: "not-found",
+    });
+  }
+};
+
+channelExist();
 </script>
 
 <template>
-  <div class="header">
+  <div class="header" v-if="channelStore.selectedChannel">
     <div class="title">
       <img
         :src="channelStore.selectedChannel.img"

@@ -12,6 +12,8 @@ const channelId = ref();
 const loaded = ref(false);
 
 onBeforeMount(async () => {
+  console.log(channelStore.selectedChannel.theme);
+
   await channelStore.initialize().then(() => {
     if (parseInt(route.params.id as string)) {
       channelStore.setSelectedChannel(parseInt(route.params.id as string));
@@ -26,6 +28,8 @@ onBeforeMount(async () => {
 });
 
 watch(route, () => {
+  console.log(channelStore.selectedChannel.theme);
+
   if (channelId) {
     channelStore.setSelectedChannel(parseInt(route.params.id as string));
     loaded.value = true;
