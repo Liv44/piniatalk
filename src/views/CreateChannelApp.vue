@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CreateChannel from "../components/CreateChannel.vue";
+import CreateChannel from "../components/CreateUpdateChannelDialog.vue";
 </script>
 
 <template>

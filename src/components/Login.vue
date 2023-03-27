@@ -2,17 +2,23 @@
 import { ref } from "vue";
 import { postLogin } from "../CRUD/generic";
 import router from "../router";
+import { useChannelStore } from "../store/channelStore";
 
 const username = ref("");
 const password = ref("");
+const channelStore = useChannelStore();
 
+if(sessionStorage.getItem('token')){
+    router.push("/channel");
+}
 const onClickLogin = async () => {
     try {
         if (username.value === "" || password.value === "") {
             alert("Username or password is empty");
         } else {
             await postLogin("login", username.value, password.value);
-            router.push("/create");
+            await channelStore.initialize();
+            router.push("/channel");
         }
     } catch (error) {
         console.log(error);

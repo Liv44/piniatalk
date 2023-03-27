@@ -89,7 +89,7 @@ export const updateChannel = async (
         {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
         }
     );
@@ -101,7 +101,7 @@ export const getChannels = async () => {
     const response = await axios.get(`${baseURL}/protected/user/channels`, {
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
     });
     return response.data;
