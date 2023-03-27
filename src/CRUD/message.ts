@@ -57,7 +57,6 @@ export const useMessageStore = defineStore("messageList", {
                             },
                         }
                     );
-                    console.log(response.data);
                     return response.data;
                 } else if (content?.type === "file") {
                     const response = await axios.post(
@@ -74,7 +73,6 @@ export const useMessageStore = defineStore("messageList", {
                             },
                         }
                     );
-                    console.log(response.data);
                     return response.data;
                 } else {
                     console.log("Entrez soit du texte, soit une image.");
