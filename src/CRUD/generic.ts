@@ -34,3 +34,16 @@ export const postLogin = (
         console.log(error);
     }
 };
+
+export const extendSession = () => {
+    try {
+        return axios.post(baseURL + "/protected/extend_session", {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
