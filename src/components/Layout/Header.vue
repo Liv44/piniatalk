@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useChannelStore } from "../store/channelStore";
-import CreateChannelDialog from "./CreateUpdateChannelDialog.vue";
+import { useChannelStore } from "../../store/channelStore";
+import CreateChannelDialog from "../Dialogs/channel/CreateUpdateChannelDialog.vue";
 import { GDialog } from "gitart-vue-dialog";
-import ManageUsersDialog from "./ManageUsersDialog.vue";
+import ManageUsersDialog from "../Dialogs/user/ManageUsersDialog.vue";
+import { useRoute, useRouter } from "vue-router";
 
 const username = ref(sessionStorage.getItem("username"));
 const channelStore = useChannelStore();
 const openParamsDialog = ref(false);
 const openManageUsersDialog = ref(false);
+
 </script>
 
 <template>
-  <div class="header">
+  <div class="header" v-if="channelStore.selectedChannel">
     <div class="title">
       <img
         :src="channelStore.selectedChannel.img"

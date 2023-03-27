@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import ChannelVue from "../components/Channel.vue";
+import ChannelVue from "../views/HomeView.vue";
 import NotFound from "../views/NotFoundView.vue";
-import LoginVue from "../components/Login.vue";
-import WebSockets from "../views/WebSockets.vue";
+import LoginVue from "../views/LoginView.vue";
 
 const isAuthenticated = async () => {
     const isAuthenticated = sessionStorage.getItem("token");
@@ -14,6 +13,10 @@ const isAuthenticated = async () => {
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        {
+            path: "/",
+            redirect: "/channel",
+        },
         {
             path: "/login",
             name: "login",
@@ -29,11 +32,6 @@ const router = createRouter({
             path: "/:pathMatch(.*)*",
             name: "not-found",
             component: NotFound,
-        },
-        {
-            path: "/web/:id",
-            name: "web",
-            component: WebSockets,
         },
     ],
 });

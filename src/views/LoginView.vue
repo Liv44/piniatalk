@@ -29,7 +29,6 @@ const onClickLogin = async () => {
 <template>
     <div class="login">
         <h1>LOGIN</h1>
-    </div>
     <div class="container">
         <div class="page">
             <div class="img">
@@ -58,6 +57,7 @@ const onClickLogin = async () => {
             </button>
         </div>
     </div>
+</div>
 </template>
 
 <style scoped>

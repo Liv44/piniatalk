@@ -1,30 +1,46 @@
 <script setup lang="ts">
-import { onBeforeMount, ref, watch } from "vue";
+import { onBeforeMount, ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useChannelStore } from "../store/channelStore";
-import PanelChannels from "./PanelChannels.vue";
-import Header from "./Header.vue";
-import Chat from "./Chat.vue";
+import PanelChannels from "../components/Layout/SideBar.vue";
+import Header from "../components/Layout/Header.vue";
+import Chat from "../components/AddMessage.vue";
 import { useMessageStore } from "../store/messageStore";
+import ItemMessage from "../components/ItemMessage.vue";
+import Messages from "../components/Messages.vue";
 
 const channelStore = useChannelStore();
 const messageStore = useMessageStore();
-console.log("channel store", messageStore.messages);
 
 const route = useRoute();
 const router = useRouter();
 const channelId = ref();
 const loaded = ref(false);
+const loadedMessage = ref(false);
+
+const channelExist = () => {
+  if (!channelStore.channelExist(parseInt(route.params.id as string))) {
+    router.push({
+      name: "not-found",
+    });
+  }
+};
+
+
 
 onBeforeMount(async () => {
+    loadedMessage.value = false;
     await channelStore.initialize().then(async () => {
         if (parseInt(route.params.id as string)) {
+            channelExist();
             channelStore.setSelectedChannel(
                 parseInt(route.params.id as string)
             );
-            console.log("channel id", route.params.id);
-            await messageStore.initialize(route.params.id as string);
-            loaded.value = true;
+            
+            await messageStore.initialize(route.params.id as string).then(()=> {
+              loaded.value = true;
+              loadedMessage.value = true;
+            });
         } else {
             router.push({
                 name: "channel",
@@ -35,10 +51,16 @@ onBeforeMount(async () => {
 });
 
 watch(route, async () => {
+    loadedMessage.value = false;
     if (channelId) {
+        channelExist();
         channelStore.setSelectedChannel(parseInt(route.params.id as string));
-        await messageStore.initialize(route.params.id as string);
-        loaded.value = true;
+        await messageStore.initialize(route.params.id as string).then(
+            () => {
+              loaded.value = true;
+              loadedMessage.value = true;
+            }
+        );
     } else {
         router.push({
             name: "channel",
@@ -46,17 +68,16 @@ watch(route, async () => {
         });
     }
 });
+
+
+
+
 </script>
 
 <template>
     <div class="all-page" v-if="loaded">
         <Header />
-        <div class="messages">
-            <p v-for="message in messageStore.messages">
-                {{ message.content }}
-            </p>
-            <Chat> </Chat>
-        </div>
+        <Messages :loaded="loadedMessage"/>
         <PanelChannels />
     </div>
 </template>
@@ -64,9 +85,10 @@ watch(route, async () => {
 <style scoped>
 .all-page {
     color: white;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: auto 100%;
+    grid-template-rows: 15vh 75vh;
     grid-template-areas:
         "header header header sidebar"
         "main main main sidebar";
@@ -79,8 +101,6 @@ watch(route, async () => {
     grid-area: sidebar;
 }
 .messages {
-    height: 100%;
-    width: auto;
     grid-area: main;
 }
 </style>

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useChannelStore } from "../store/channelStore";
-import {ChannelType} from "../store/channelStore";
-import ItemPannel from './ItemPannel.vue';
-import CreateChannelDialog from './CreateUpdateChannelDialog.vue';
+import { useChannelStore } from "../../store/channelStore";
+import ItemPannel from './ItemChannel.vue';
+import CreateChannelDialog from '../Dialogs/channel/CreateUpdateChannelDialog.vue';
 import { GDialog } from 'gitart-vue-dialog';
+import { logout } from '../../CRUD/generic';
+import { useRouter } from 'vue-router';
+import { ChannelType } from '../../utils/types';
 
 const channelStore = useChannelStore();
 const username = sessionStorage.getItem('username');
@@ -14,6 +16,12 @@ const ownChannels = computed(() => channelStore.channels.filter((channel: Channe
 const otherChannels = computed(() => channelStore.channels.filter((channel: ChannelType) => {
     return channel.creator !== sessionStorage.getItem('username');
 }));
+const router = useRouter();
+
+const toggleLogout=()=> {
+    logout();
+    router.push({name: 'login'})
+}   
 
 const openCreateDialog = ref(false);
 
@@ -35,7 +43,7 @@ const openCreateDialog = ref(false);
                 <ItemPannel :channel="channel" v-for="channel in otherChannels"/>
             </div>
         </div>
-        <RouterLink to="/logout">Déconnexion</RouterLink>
+        <button @click="toggleLogout">Déconnexion</button>
         <GDialog v-model="openCreateDialog">
             <CreateChannelDialog :isUpdating="false" @close-dialog="()=>openCreateDialog=false"/>
         </GDialog>
@@ -51,8 +59,12 @@ const openCreateDialog = ref(false);
     max-height:220px;
 }
 .pannel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 1em;
     width:250px;
-    height:100%;
     padding: 1em;
     background-color: #353030;
     color: white;
@@ -64,12 +76,13 @@ const openCreateDialog = ref(false);
     font-weight: 700;
     text-align: center;
     color: #FFE46B;
-    padding: 20px;
+    padding: 0 20px;
 }
 
 .channel-title {
     color:#8A8A8A;
     font-weight: 300;
+    margin:10px;
 }
 
 .channel-lists {

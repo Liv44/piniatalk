@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { banUserToChannel } from "../CRUD/channel";
-import { useChannelStore } from "../store/channelStore";
+import { banUserToChannel } from "../../../CRUD/channel";
+import { useChannelStore } from "../../../store/channelStore";
 
 const channelStore = useChannelStore();
 

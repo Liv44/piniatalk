@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useChannelStore } from '../store/channelStore';
+import { useChannelStore } from '../../store/channelStore';
 import { useRouter } from 'vue-router';
 
 defineProps(['channel']);

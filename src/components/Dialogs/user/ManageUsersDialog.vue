@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import UserListComponent from "./UserListComponent.vue";
-import { addUserToChannel } from "../CRUD/channel";
-import { useChannelStore } from "../store/channelStore";
+import ItemUser from "./ItemUser.vue";
+import { addUserToChannel } from "../../../CRUD/channel";
+import { useChannelStore } from "../../../store/channelStore";
 
 const userToAdd = ref("");
 const channelStore = useChannelStore();
@@ -27,7 +27,7 @@ const addUser = async () => {
     <div class="scrollableList">
       <ul class="listUser">
         <li v-for="data in channelStore.selectedChannel.users">
-          <UserListComponent :username="data" />
+          <ItemUser :username="data" />
         </li>
       </ul>
     </div>
