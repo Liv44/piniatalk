@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useChannelStore } from "../store/channelStore";
 import PanelChannels from "./PanelChannels.vue";
 import Header from "./Header.vue";
+import Chat from "./Chat.vue";
 
 const channelStore = useChannelStore();
 const route = useRoute();
@@ -41,7 +42,10 @@ watch(route, () => {
 <template>
   <div class="all-page" v-if="loaded">
     <Header />
-    <div class="messages"></div>
+    <div class="messages">
+
+      <Chat>  </Chat>
+    </div>
     <PanelChannels />
   </div>
 </template>

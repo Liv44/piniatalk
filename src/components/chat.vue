@@ -11,8 +11,6 @@ const { messageList } = storeToRefs(store);
 const { addMessage } = store;
 
 const message = ref("");
-const timestamp = ref(new Date());
-const author = ref("Luke");
 
 const image = ref("");
 const inputFile = ref(null);
