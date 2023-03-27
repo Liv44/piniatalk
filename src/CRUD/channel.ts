@@ -106,3 +106,26 @@ export const getChannels = async () => {
     });
     return response.data;
 };
+
+/* Change content of one message */ /* TODO : Conditions pour vérif si c'est une image ou un text !! */
+export const moderateMessage = async (
+    channel_id: number,
+    author: string,
+    content: string,
+    time: number
+) => {
+    try {
+        return axios.post(
+            baseURL + `/protected/channel/${channel_id}/message/moderate`,
+            {
+                timestamp: time,
+                author: author,
+                content: {
+                    Text: content,
+                },
+            }
+        );
+    } catch (error) {
+        console.log(error);
+    }
+};
