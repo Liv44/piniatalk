@@ -18,14 +18,8 @@ const channelName = ref(
 const channelImage = ref(
   props.isUpdating ? channelStore.selectedChannel.img : ""
 );
-
-const findThemeFromChannel = () => {
-  return themes.find((theme: ThemesTypes) => {
-    return channelStore.selectedChannel.theme === theme;
-  });
-};
 const channelColors = ref(
-  props.isUpdating ? findThemeFromChannel() : themes[0]
+  props.isUpdating ? channelStore.selectedChannel.theme : themes[0]
 );
 const openDeleteDialog = ref(false);
 
@@ -33,7 +27,7 @@ watch(channelStore, () => {
   if (props.isUpdating) {
     channelName.value = channelStore.selectedChannel.name;
     channelImage.value = channelStore.selectedChannel.img;
-    channelColors.value = findThemeFromChannel();
+    channelColors.value = channelStore.selectedChannel.theme;
   }
 });
 
@@ -65,8 +59,7 @@ const update = async () => {
   await updateChannel(
     channelStore.selectedChannel.id,
     channelName.value,
-    channelImage.value,
-    channelColors.value!.colors
+    channelImage.value
   );
   channelStore.updateChannel({
     creator: channelStore.selectedChannel.creator,
