@@ -35,3 +35,7 @@ export const postLogin = (
         console.log(error);
     }
 };
+
+export const logout = () => {
+    sessionStorage.removeItem("token");
+};
