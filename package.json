@@ -11,6 +11,7 @@
     "dependencies": {
         "axios": "^1.3.3",
         "gitart-vue-dialog": "^2.4.1",
+        "bootstrap-icons": "^1.10.3",
         "pinia": "^2.0.33",
         "vue": "^3.2.45",
         "vue-router": "4"
