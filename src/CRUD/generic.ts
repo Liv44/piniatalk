@@ -25,6 +25,7 @@ export const postLogin = (
                 (response) => {
                     const token = response.data.token;
                     sessionStorage.setItem("token", token);
+                    sessionStorage.setItem("username", username);
                 },
                 (error) => {
                     console.log(error);
