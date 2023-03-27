@@ -2,39 +2,21 @@
 import { ref } from "vue";
 import UserListComponent from "./UserListComponent.vue";
 import { addUserToChannel } from "../CRUD/channel";
+import { useChannelStore } from "../store/channelStore";
 
 const userToAdd = ref("");
+const channelStore = useChannelStore();
 
-const users = [
-  {
-    id: 1,
-    name: "l.teilliais",
-  },
-  {
-    id: 2,
-    name: "l.jones",
-  },
-  {
-    id: 3,
-    name: "e.dumont",
-  },
-  {
-    id: 4,
-    name: "o.moreau",
-  },
-  {
-    id: 5,
-    name: "t.bourmaud",
-  },
-  {
-    id: 6,
-    name: "a.clavier",
-  },
-];
-
-// add channel id from store
-const addUser = async (channelID: number) => {
-  await addUserToChannel(channelID, userToAdd.value);
+const addUser = async () => {
+  await addUserToChannel(channelStore.selectedChannel.id, userToAdd.value).then(
+    () => {
+      channelStore.addUserToChannel(
+        channelStore.selectedChannel.id,
+        userToAdd.value
+      );
+      userToAdd.value = "";
+    }
+  );
 };
 </script>
 
@@ -44,8 +26,8 @@ const addUser = async (channelID: number) => {
     <hr />
     <div class="scrollableList">
       <ul class="listUser">
-        <li v-for="data in users">
-          <UserListComponent :username="data.name" />
+        <li v-for="data in channelStore.selectedChannel.users">
+          <UserListComponent :username="data" />
         </li>
       </ul>
     </div>
@@ -57,8 +39,7 @@ const addUser = async (channelID: number) => {
       type="text"
       name="addUser"
     />
-    <!-- Add @click=addUser avec les bons args  -->
-    <button class="buttonAdd">+</button>
+    <button class="buttonAdd" @click="addUser">+</button>
   </div>
 </template>
 
@@ -74,7 +55,6 @@ h2 {
   border: 8px solid #7ae18b;
   border-radius: 10px;
   padding: 2rem;
-  width: 15rem;
 }
 
 .listUser {
@@ -93,6 +73,7 @@ h2 {
 label {
   color: #353030;
   font-size: 1rem;
+  margin-right: 1rem;
 }
 
 .inputAddUser {

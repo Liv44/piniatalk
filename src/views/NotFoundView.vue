@@ -1,17 +1,15 @@
 <script setup lang="ts">
-// add channel id from store
-const deleteChannel = async (channelID: number) => {
-  await deleteChannel(channelID);
-};
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 </script>
 
 <template>
-  <!-- a continuer -->
   <div class="notFound">
     <img src="../assets/404.png" alt="404" />
     <h3>Vous n'avez pas accès à cette page</h3>
     <div class="notFoundButton">
-      <button onclick="window.location='/'">
+      <button @click="() => router.push({ name: 'channel' })">
         Retourner à la page d'accueil
       </button>
     </div>
@@ -22,7 +20,6 @@ const deleteChannel = async (channelID: number) => {
 h3 {
   display: flex;
   justify-content: center;
-  /* margin-top: 20px; */
 }
 
 img {

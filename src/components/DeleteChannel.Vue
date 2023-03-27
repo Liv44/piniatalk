@@ -1,9 +1,22 @@
 <script setup lang="ts">
 import { deleteChannel } from "../CRUD/channel";
+import { useChannelStore } from "../store/channelStore";
+import { useRouter } from "vue-router";
 
-// add channel id from store
-const deleteChannel = async (channelID: number) => {
-  await deleteChannel(channelID);
+const channelStore = useChannelStore();
+const router = useRouter();
+
+const emit = defineEmits(["close-dialog", "close-all-dialogs"]);
+
+const deleteOneChannel = async () => {
+  await deleteChannel(channelStore.selectedChannel.id).then(() => {
+    channelStore.deleteChannel(channelStore.selectedChannel.id);
+    router.push({
+      name: "channel",
+      params: { id: channelStore.channels[0].id },
+    });
+    emit("close-all-dialogs");
+  });
 };
 </script>
 
@@ -12,10 +25,10 @@ const deleteChannel = async (channelID: number) => {
     <h3>Voulez vous vraiment supprimer ce salon ?</h3>
     <h3>Cette action est définitive.</h3>
     <div class="buttons">
-      <!-- Ajouter pour femer la modal -->
-      <button class="cancel">Annuler</button>
-      <!-- Ajouter @click=deleteChannel avec les bons args -->
-      <button class="delete">Supprimer</button>
+      <button class="cancel" @click="() => emit('close-dialog')">
+        Annuler
+      </button>
+      <button class="delete" @click="deleteOneChannel">Supprimer</button>
     </div>
   </div>
 </template>

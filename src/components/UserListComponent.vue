@@ -1,30 +1,35 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { banUserToChannel } from "../CRUD/channel";
-const isClicked = ref(false);
+import { useChannelStore } from "../store/channelStore";
 
-defineProps({
+const channelStore = useChannelStore();
+
+const props = defineProps({
   username: String,
 });
 
-const click = () => {
-  isClicked.value = !isClicked.value;
-};
+const isAdmin = computed(() => {
+  return channelStore.selectedChannel.creator === props.username;
+});
 
-// add channel id from store
-const banUser = async (channelID: number, userID: string) => {
-  await banUserToChannel(channelID, userID);
+const banUser = async () => {
+  await banUserToChannel(channelStore.selectedChannel.id, props.username!).then(
+    () => {
+      channelStore.banUserToChannel(
+        channelStore.selectedChannel.id,
+        props.username!
+      );
+    }
+  );
 };
 </script>
 
 <template>
   {{ username }}
-  <button @click="click" v-if="!isClicked" class="buttonMore">
-    <img src="../assets/icon-plus.png" />
-  </button>
-  <div v-else>
-    <!-- Add @click=banUser with good args -->
-    <button class="banButton">Bannir</button>
+  {{ isAdmin ? "(admin)" : "" }}
+  <div v-if="!isAdmin">
+    <button class="banButton" @click="banUser">Bannir</button>
   </div>
 </template>
 
