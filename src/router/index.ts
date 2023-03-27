@@ -5,12 +5,21 @@ import CreateChannelApp from "../views/CreateChannelApp.vue";
 import ChannelVue from "../components/Channel.vue";
 import ManageChannelApp from "../views/ManageChannelApp.vue";
 import DeleteChannelApp from "../views/DeleteChannelApp.vue";
+import TokenExpirationApp from "../views/TokenExpirationApp.vue";
+import NotFound from "../views/NotFoundView.vue";
+
+const isAuthenticated = async () => {
+  const isAuthenticated = sessionStorage.getItem('token')
+    if (!isAuthenticated && window.location.pathname !== 'home' ){
+        window.location.href = 'home'
+    }
+}
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
-            path: "/",
+            path: "/home",
             name: "home",
             component: HomeView,
         },
@@ -18,6 +27,7 @@ const router = createRouter({
             path: "/piniatalk",
             name: "piniatalk",
             component: () => import("../views/AboutView.vue"),
+            beforeEnter: isAuthenticated
         },
         {
             path: "/create",
@@ -46,7 +56,16 @@ const router = createRouter({
             name: "delete",
             component: DeleteChannelApp ,
         },
-        
+        {
+            path: "/token",
+            name: "token",
+            component: TokenExpirationApp ,
+        },
+        {
+            path: "/:pathMatch(.*)*",
+            name: "not-found",
+            component: NotFound,
+        }
         
     ],
 });

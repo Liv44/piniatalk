@@ -4,7 +4,7 @@ import { banUserToChannel } from "../CRUD/channel";
 const isClicked = ref(false);
 
 defineProps({
-  userName: String,
+  username: String,
 });
 
 const click = () => {
@@ -18,7 +18,7 @@ const banUser = async (channelID: number, userID: string) => {
 </script>
 
 <template>
-  {{ userName }}
+  {{ username }}
   <button @click="click" v-if="!isClicked" class="buttonMore">
     <img src="../assets/icon-plus.png" />
   </button>

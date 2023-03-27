@@ -45,7 +45,7 @@ const addUser = async (channelID: number) => {
     <div class="scrollableList">
       <ul class="listUser">
         <li v-for="data in users">
-          <UserListComponent :userName="data.name" />
+          <UserListComponent :username="data.name" />
         </li>
       </ul>
     </div>
@@ -130,6 +130,7 @@ label {
   height: 1rem;
   width: 5rem;
 }
+
 /* Hide scrollbar for firefox */
 .scrollableList {
   height: 10rem;
