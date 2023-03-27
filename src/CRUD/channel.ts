@@ -95,14 +95,15 @@ export const banUserToChannel = async (channel_id: number, user_id: string) => {
 export const updateChannel = async (
     channel_id: number,
     name: string,
-    img: string
+    img: string,
+    
 ) => {
     try {
         const response = await axios.post(
             `${baseURL}/protected/channel/${channel_id}/update_metadata`,
             {
                 name,
-                img,
+                img
             },
             {
                 headers: {

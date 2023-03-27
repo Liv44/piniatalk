@@ -10,7 +10,7 @@ export const themes = [
         },
     },
     {
-        name: "Test",
+        name: "Discord",
         colors: {
             primary_color: "#E91E63",
             primary_color_dark: "#C2185B",
