@@ -17,6 +17,10 @@ const isUserConnectedAdmin = computed(()=> {
   return channelStore.selectedChannel.creator.includes(sessionStorage.getItem("username")!);
 })
 
+const isJulienLeBoss = computed(() => {
+  return props.username === "tiesselune" || props.username === "j.sosthene";
+});
+
 const banUser = async () => {
   await banUserToChannel(channelStore.selectedChannel.id, props.username!).then(
     () => {
@@ -32,7 +36,8 @@ const banUser = async () => {
 <template>
   {{ username }}
   {{ isUserAdmin ? "(admin)" : "" }}
-  <div v-if="!isUserAdmin && isUserConnectedAdmin">
+  {{ isJulienLeBoss ? "(le super boss ⚡️)" : "" }}
+  <div v-if="!isUserAdmin && isUserConnectedAdmin && !isJulienLeBoss">
     <button class="banButton" @click="banUser">Bannir</button>
   </div>
 </template>

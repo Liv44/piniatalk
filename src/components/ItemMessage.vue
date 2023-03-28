@@ -12,8 +12,22 @@ const props = defineProps<{
 const channelStore = useChannelStore();
 const messageStore = useMessageStore();
 
-const authorNameArray = props.message.author.split('.');
-const authorName = (authorNameArray[0]+authorNameArray[1][0]).toUpperCase();
+const isJulienLeBoss = computed(()=> {
+    return props.message.author === 'tiesselune' || props.message.author === 'j.sosthene';
+});
+
+const authorName = computed(()=> {
+    if (isJulienLeBoss.value){
+        return '❤️';
+    } else {
+        if(props.message.author.includes('.')){
+            const authorNameArray = props.message.author.split('.');
+            return (authorNameArray[0]+authorNameArray[1][0]).toUpperCase()
+        }else{
+            return props.message.author.substring(0,2).toUpperCase();
+        }
+    }
+})
 
 const usernameConnected = sessionStorage.getItem('username');
 
@@ -61,7 +75,7 @@ const handleUpdateMessage = async () => {
 </script>
 
 <template>
-    <div :class="'message ' + (message.author === usernameConnected ? 'ownMessage':'')" v-if="message"  @mouseenter="()=>hover = true" @mouseleave="()=>hover = false">
+    <div :class="'message ' + (message.author === usernameConnected ? 'ownMessage':'') + (isJulienLeBoss ? 'julienLeBoss':'')" v-if="message"  @mouseenter="()=>hover = true" @mouseleave="()=>hover = false">
         <p class="author-icon">{{ authorName }}</p>
         <div class="message-block">
             <p class="head-message">
@@ -86,6 +100,27 @@ const handleUpdateMessage = async () => {
     </div>
 </template>
 <style scoped>
+
+.julienLeBoss{
+    background-image: url(https://static.vecteezy.com/system/resources/previews/001/893/870/original/valentine-s-day-red-hearts-background-free-vector.png);
+    background-size: cover;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-attachment:local;
+    background-blend-mode: multiply;
+    background-color: #d53c51cc;
+    /* color: #1b1b1b !important; */
+}
+
+.julienLeBoss .author-icon{
+    background-color: #1b1b1b;
+}
+
+/* .julienLeBoss .message-block{
+    background-color: #a3a3a3c0;
+
+} */
+
 .head-message{
     display: flex;
     flex-direction: row;

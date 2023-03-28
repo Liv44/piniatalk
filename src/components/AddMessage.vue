@@ -20,7 +20,9 @@ const add = async () => {
       })
     });
     image.addEventListener('error', async () => {
-      await addMessage(channelStore.selectedChannel.id.toString(), { type: "text", data: message.value }).then(() => {
+      const newMessage = message.value.replace("Julien", "l'incroyable Julien ✨");
+
+      await addMessage(channelStore.selectedChannel.id.toString(), { type: "text", data: newMessage }).then(() => {
         message.value = "";
       })
     });

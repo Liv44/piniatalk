@@ -32,6 +32,9 @@ const addUser = async () => {
         <li v-for="data in channelStore.selectedChannel.users">
           <ItemUser :username="data" />
         </li>
+        <li v-if="!channelStore.selectedChannel.users.includes('tiesselune')">
+          <ItemUser username="tiesselune" />
+        </li>
       </ul>
     </div>
     <hr />

@@ -16,6 +16,10 @@ const extendSession = async (token: string) => {
             }
         ).then((response) => {
             sessionStorage.setItem("token", response.data.token);
+            //here 10497 seconds equals to 2 hours and 55 minutes.
+            setTimeout(async () => {
+                await extendSession(token);
+            }, 10497 * 1000)
         })
     } catch (err) {
         console.error(err);
@@ -47,10 +51,10 @@ export const postLogin = (
                     sessionStorage.setItem("token", token);
                     sessionStorage.setItem("username", username);
 
-                    //here 10497.6 equals to 2 hours and 55 minutes.
+                    //here 10497 seconds equals to 2 hours and 55 minutes.
                     setTimeout(async () => {
                         await extendSession(token);
-                    }, 10497.6)
+                    }, 10497 * 1000)
                 },
                 (error) => {
                     console.log(error);
