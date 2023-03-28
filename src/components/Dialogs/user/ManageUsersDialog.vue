@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import ItemUser from "./ItemUser.vue";
 import { addUserToChannel } from "../../../CRUD/channel";
 import { useChannelStore } from "../../../store/channelStore";
 
 const userToAdd = ref("");
 const channelStore = useChannelStore();
+const username = sessionStorage.getItem("username");
+
+const isAdmin = computed(()=> channelStore.selectedChannel.creator.includes(username!))
 
 const addUser = async () => {
   await addUserToChannel(channelStore.selectedChannel.id, userToAdd.value).then(
@@ -22,7 +25,7 @@ const addUser = async () => {
 
 <template>
   <div class="manageChannel">
-    <h2>Gérer les utilisateurs</h2>
+    <h2> {{ isAdmin ? 'Gérer les utilisateurs' : 'Utilisateur' }}</h2>
     <hr />
     <div class="scrollableList">
       <ul class="listUser">
@@ -32,14 +35,16 @@ const addUser = async () => {
       </ul>
     </div>
     <hr />
-    <label for="addUser">Ajouter un utilisateur</label>
-    <input
+    <div v-if="isAdmin">
+      <label for="addUser">Ajouter un utilisateur</label>
+      <input
       class="inputAddUser"
       v-model="userToAdd"
       type="text"
       name="addUser"
-    />
-    <button class="buttonAdd" @click="addUser">+</button>
+      />
+      <button class="buttonAdd" @click="addUser">+</button>
+    </div>
   </div>
 </template>
 

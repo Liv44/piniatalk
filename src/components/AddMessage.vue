@@ -10,20 +10,22 @@ const message = ref("");
 
 
 const add = async () => {
+  if(message.value){
+    const image = new Image();
+    image.src = message.value;
+  
+    image.addEventListener('load', async () => {
+      await addMessage(channelStore.selectedChannel.id.toString(), { type: "file", data: message.value }).then(() => {
+        message.value = "";
+      })
+    });
+    image.addEventListener('error', async () => {
+      await addMessage(channelStore.selectedChannel.id.toString(), { type: "text", data: message.value }).then(() => {
+        message.value = "";
+      })
+    });
+  }
 
-  const image = new Image();
-  image.src = message.value;
- 
-  image.addEventListener('load', async () => {
-    await addMessage(channelStore.selectedChannel.id.toString(), { type: "file", data: message.value }).then(() => {
-      message.value = "";
-    })
-  });
-  image.addEventListener('error', async () => {
-    await addMessage(channelStore.selectedChannel.id.toString(), { type: "text", data: message.value }).then(() => {
-      message.value = "";
-    })
-  });
 };
 </script>
 

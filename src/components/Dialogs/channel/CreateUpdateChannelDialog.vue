@@ -4,8 +4,8 @@ import { createChannel, updateChannel } from "../../../CRUD/channel";
 import { themes } from "../../../utils/themes";
 import { useChannelStore } from "../../../store/channelStore";
 import { GDialog } from "gitart-vue-dialog";
-import DeleteChannel from "./DeleteChannelDialog.vue";
 import { useRouter } from "vue-router";
+import DeleteChannelDialog from "./DeleteChannelDialog.vue";
 
 const props = defineProps({
   isUpdating: Boolean,
@@ -120,7 +120,7 @@ const update = async () => {
       <button class="create" v-else @click="create">Créer</button>
     </div>
     <GDialog v-model="openDeleteDialog">
-      <DeleteChannel
+      <DeleteChannelDialog
         @close-dialog="() => (openDeleteDialog = false)"
         @close-all-dialogs="
           () => {
@@ -129,7 +129,7 @@ const update = async () => {
           }
         "
       >
-      </DeleteChannel>
+      </DeleteChannelDialog>
     </GDialog>
   </div>
 </template>

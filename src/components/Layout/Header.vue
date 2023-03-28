@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useChannelStore } from "../../store/channelStore";
 import CreateChannelDialog from "../Dialogs/channel/CreateUpdateChannelDialog.vue";
 import { GDialog } from "gitart-vue-dialog";
@@ -10,6 +10,10 @@ const username = ref(sessionStorage.getItem("username"));
 const channelStore = useChannelStore();
 const openParamsDialog = ref(false);
 const openManageUsersDialog = ref(false);
+
+const isAdmin = computed(() => {
+  return channelStore.selectedChannel.creator.includes(username.value!);
+});
 
 </script>
 
@@ -26,16 +30,13 @@ const openManageUsersDialog = ref(false);
       </p>
       <h1>{{ channelStore.selectedChannel.name }}</h1>
     </div>
-    <div v-if="channelStore.selectedChannel.creator === username" class="links">
+    <div  class="links">
       <button @click="() => (openManageUsersDialog = true)">
-        Gérer les utilisateurs
+        {{isAdmin ? "Gérer les utilisateurs" : "Utilisateurs"}}
       </button>
-      <button @click="() => (openParamsDialog = true)">
+      <button @click="() => (openParamsDialog = true)" v-if="isAdmin">
         Paramètres du salon
       </button>
-    </div>
-    <div v-else>
-      <p>Administrateur : {{ channelStore.selectedChannel.creator }}</p>
     </div>
     <GDialog v-model="openParamsDialog">
       <CreateChannelDialog
