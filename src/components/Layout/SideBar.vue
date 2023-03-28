@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useChannelStore } from "../../store/channelStore";
-import ItemPannel from './ItemChannel.vue';
-import CreateChannelDialog from '../Dialogs/channel/CreateUpdateChannelDialog.vue';
 import { GDialog } from 'gitart-vue-dialog';
 import { logout } from '../../CRUD/generic';
 import { useRouter } from 'vue-router';
 import { ChannelType } from '../../utils/types';
+import ItemPannel from './ItemChannel.vue';
+import CreateChannelDialog from '../Dialogs/channel/CreateUpdateChannelDialog.vue';
 
 const channelStore = useChannelStore();
 const username = sessionStorage.getItem('username');

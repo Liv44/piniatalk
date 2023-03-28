@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import ChannelVue from "../views/HomeView.vue";
+import Home from "../views/HomeView.vue";
 import NotFound from "../views/NotFoundView.vue";
-import LoginVue from "../views/LoginView.vue";
-
+import Login from "../views/LoginView.vue";
 const isAuthenticated = async () => {
     const isAuthenticated = sessionStorage.getItem("token");
     if (!isAuthenticated && window.location.pathname !== "/login") {
@@ -20,12 +19,12 @@ const router = createRouter({
         {
             path: "/login",
             name: "login",
-            component: LoginVue,
+            component: Login,
         },
         {
             path: "/channel/:id?",
             name: "channel",
-            component: ChannelVue,
+            component: Home,
             beforeEnter: isAuthenticated,
         },
         {

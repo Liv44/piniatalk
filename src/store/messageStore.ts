@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { getMessages } from "../CRUD/channel";
+import { getMessages } from "../CRUD/message";
 import { MessageType } from "../utils/types";
 
 export const useMessageStore = defineStore("message", {

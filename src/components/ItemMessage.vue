@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import {updateMessage} from '../CRUD/message';
+import { computed, ref } from 'vue';
+import { updateMessage } from '../CRUD/message';
 import { useChannelStore } from '../store/channelStore';
 import { useMessageStore } from '../store/messageStore';
 import { MessageType } from '../utils/types';
+
 const props = defineProps<{
     message: MessageType;
 }>();

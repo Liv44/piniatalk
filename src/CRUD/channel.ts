@@ -129,29 +129,3 @@ export const getChannels = async () => {
     }
 };
 
-/* Get all message of channel */
-export const getMessages = async (
-    channel_id: string,
-    numberMessage: number
-) => {
-    try {
-        return axios
-            .get(
-                baseURL +
-                    `/protected/channel/${channel_id}/messages/${numberMessage}`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${sessionStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            )
-            .then((response) => {
-                return response.data;
-            });
-    } catch (error) {
-        console.log(error);
-    }
-};

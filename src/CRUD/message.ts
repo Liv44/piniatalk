@@ -51,6 +51,35 @@ export const addMessage = async (channel_id: string, content?: MessageContent) =
         console.log("Error" + error);
     }
 };
+
+
+/* Get all message of channel */
+export const getMessages = async (
+    channel_id: string,
+    numberMessage: number
+) => {
+    try {
+        return axios
+            .get(
+                baseURL +
+                `/protected/channel/${channel_id}/messages/${numberMessage}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            )
+            .then((response) => {
+                return response.data;
+            });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const updateMessage = async (message: MessageType) => {
     try {
         await axios.post(

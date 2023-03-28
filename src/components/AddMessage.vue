@@ -45,59 +45,6 @@ const add = async () => {
 </template>
 
 <style scoped>
-
-/* User image */
-.user-img {
-  margin-right: 10px;
-}
-
-.user-img img {
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
-}
-
-/* Message list*/
-.message {
-  overflow-y: scroll;
-}
-
-.message-list {
-  display: flex;
-  margin-bottom: 10px;
-  padding: 10px;
-}
-
-/* Message Content */
-.message-content {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Message Header */
-.message-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.message-header .username {
-  color: #353030;
-  font-weight: bold;
-  margin-right: 10px;
-}
-
-.message-header .timestamp {
-  color: #8a8a8a;
-}
-
-/* Message Text */
-.chat-message {
-  color: black;
-  margin: 0;
-}
-
 /* Chat Input */
 .chat-input {
   display: flex;

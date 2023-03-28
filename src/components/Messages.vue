@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Chat from "./AddMessage.vue";
+import InputAddMessage from "./AddMessage.vue";
 import { useMessageStore } from '../store/messageStore';
 import ItemMessage from './ItemMessage.vue';
-import { ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { watch } from "vue";
+import { useRoute } from "vue-router";
 import { useChannelStore } from "../store/channelStore";
 
 defineProps<{
@@ -55,14 +55,14 @@ watch(route, ()=> {
             :key="message.timestamp"
             :message="message"
             />
-            <button class="old-messages" @click="setOldMessages" v-if="messageStore.messages.length%40===0">Voir d'anciens messages</button>
+            <button @click="setOldMessages" v-if="messageStore.messages.length%40===0">Voir d'anciens messages</button>
             <p v-else class="starting-message">Début de la conversation</p>
         </div>
         <div class="gif-calm" v-else-if="loaded">
             <img src="https://media.tenor.com/AO_8lGJkvI0AAAAd/calme-jamel.gif" alt="gif c'est trop calme">
             <p>Fais le premier pas... envoie un message !</p>
         </div>
-        <Chat></Chat>
+        <InputAddMessage/>
     </div>
 </template>
 <style scoped>
@@ -91,10 +91,6 @@ watch(route, ()=> {
 
 .gif-calm{
     margin:0 auto;
-}
-
-.old-messages{
-
 }
 
 </style>

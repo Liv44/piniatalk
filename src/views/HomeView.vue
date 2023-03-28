@@ -2,11 +2,9 @@
 import { onBeforeMount, ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useChannelStore } from "../store/channelStore";
+import { useMessageStore } from "../store/messageStore";
 import PanelChannels from "../components/Layout/SideBar.vue";
 import Header from "../components/Layout/Header.vue";
-import Chat from "../components/AddMessage.vue";
-import { useMessageStore } from "../store/messageStore";
-import ItemMessage from "../components/ItemMessage.vue";
 import Messages from "../components/Messages.vue";
 
 const channelStore = useChannelStore();
@@ -68,9 +66,6 @@ watch(route, async () => {
         });
     }
 });
-
-
-
 
 </script>
 

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useChannelStore } from "../../store/channelStore";
-import CreateChannelDialog from "../Dialogs/channel/CreateUpdateChannelDialog.vue";
 import { GDialog } from "gitart-vue-dialog";
+import UpdateChannelDialog from "../Dialogs/channel/CreateUpdateChannelDialog.vue";
 import ManageUsersDialog from "../Dialogs/user/ManageUsersDialog.vue";
-import { useRoute, useRouter } from "vue-router";
 
 const username = ref(sessionStorage.getItem("username"));
 const channelStore = useChannelStore();
@@ -39,7 +38,7 @@ const isAdmin = computed(() => {
       </button>
     </div>
     <GDialog v-model="openParamsDialog">
-      <CreateChannelDialog
+      <UpdateChannelDialog
         :isUpdating="true"
         @close-dialog="() => (openParamsDialog = false)"
       />
