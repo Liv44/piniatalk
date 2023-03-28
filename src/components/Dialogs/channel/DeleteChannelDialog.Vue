@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { deleteChannel } from "../CRUD/channel";
-import { useChannelStore } from "../store/channelStore";
+import { deleteChannel } from "../../../CRUD/channel";
+import { useChannelStore } from "../../../store/channelStore";
 import { useRouter } from "vue-router";
 
 const channelStore = useChannelStore();

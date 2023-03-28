@@ -11,24 +11,23 @@ export const createChannel = async (
     const convertTheme = JSON.parse(JSON.stringify(theme.colors));
     try {
         const response = await axios.put(
-                `${baseURL}/protected/channel`,
-                {
-                    name,
-                    img,
-                    theme: convertTheme,
+            `${baseURL}/protected/channel`,
+            {
+                name,
+                img,
+                theme: convertTheme,
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
                 },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-                    },
-                }
+            }
         );
         return response.data;
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
-    
 };
 
 /* Delete a channel */
@@ -44,20 +43,19 @@ export const deleteChannel = async (channel_id: number) => {
             }
         );
         return response.data;
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
 };
 
 /* Add user to channel */
 export const addUserToChannel = async (channel_id: number, user_id: string) => {
-    
     try {
         const response = await axios.put(
             `${baseURL}/protected/channel/${channel_id}/user/${user_id}`,
             {
-            user_id,
-            channel_id,
+                user_id,
+                channel_id,
             },
             {
                 headers: {
@@ -67,17 +65,16 @@ export const addUserToChannel = async (channel_id: number, user_id: string) => {
             }
         );
         return response.data;
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
-
 };
 
 /* Ban a user */
 export const banUserToChannel = async (channel_id: number, user_id: string) => {
     try {
         const response = await axios.delete(
-        `${baseURL}/protected/channel/${channel_id}/user/${user_id}`,
+            `${baseURL}/protected/channel/${channel_id}/user/${user_id}`,
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -86,7 +83,7 @@ export const banUserToChannel = async (channel_id: number, user_id: string) => {
             }
         );
         return response.data;
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
 };
@@ -127,8 +124,34 @@ export const getChannels = async () => {
             },
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
-    
+};
+
+/* Get all message of channel */
+export const getMessages = async (
+    channel_id: string,
+    numberMessage: number
+) => {
+    try {
+        return axios
+            .get(
+                baseURL +
+                    `/protected/channel/${channel_id}/messages/${numberMessage}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            )
+            .then((response) => {
+                return response.data;
+            });
+    } catch (error) {
+        console.log(error);
+    }
 };

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { banUserToChannel } from "../CRUD/channel";
-import { useChannelStore } from "../store/channelStore";
+import { banUserToChannel } from "../../../CRUD/channel";
+import { useChannelStore } from "../../../store/channelStore";
 
 const channelStore = useChannelStore();
 
@@ -9,9 +9,13 @@ const props = defineProps({
   username: String,
 });
 
-const isAdmin = computed(() => {
+const isUserAdmin = computed(() => {
   return channelStore.selectedChannel.creator === props.username;
 });
+
+const isUserConnectedAdmin = computed(()=> {
+  return channelStore.selectedChannel.creator.includes(sessionStorage.getItem("username")!);
+})
 
 const banUser = async () => {
   await banUserToChannel(channelStore.selectedChannel.id, props.username!).then(
@@ -27,8 +31,8 @@ const banUser = async () => {
 
 <template>
   {{ username }}
-  {{ isAdmin ? "(admin)" : "" }}
-  <div v-if="!isAdmin">
+  {{ isUserAdmin ? "(admin)" : "" }}
+  <div v-if="!isUserAdmin && isUserConnectedAdmin">
     <button class="banButton" @click="banUser">Bannir</button>
   </div>
 </template>

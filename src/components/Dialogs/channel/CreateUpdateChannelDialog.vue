@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { onUpdated, ref, watch } from "vue";
-import { createChannel, updateChannel } from "../CRUD/channel";
-import { themes } from "../utils/themes";
-import { useChannelStore } from "../store/channelStore";
-import { ChannelType } from "../store/channelStore";
+import { ref, watch } from "vue";
+import { createChannel, updateChannel } from "../../../CRUD/channel";
+import { themes } from "../../../utils/themes";
+import { useChannelStore } from "../../../store/channelStore";
 import { GDialog } from "gitart-vue-dialog";
-import DeleteChannel from "./DeleteChannel.vue";
+import { useRouter } from "vue-router";
+import DeleteChannelDialog from "./DeleteChannelDialog.vue";
 
 const props = defineProps({
   isUpdating: Boolean,
 });
+
+const router = useRouter();
 
 const channelStore = useChannelStore();
 const channelName = ref(
@@ -47,7 +49,11 @@ const create = async () => {
       id: res,
       users: [sessionStorage.getItem("username")!],
     });
-
+    router.push({
+      name: "channel",
+      params: { id: res },
+    })
+   
     channelName.value = "";
     channelImage.value = "";
     channelColors.value = themes[0];
@@ -114,7 +120,7 @@ const update = async () => {
       <button class="create" v-else @click="create">Créer</button>
     </div>
     <GDialog v-model="openDeleteDialog">
-      <DeleteChannel
+      <DeleteChannelDialog
         @close-dialog="() => (openDeleteDialog = false)"
         @close-all-dialogs="
           () => {
@@ -123,7 +129,7 @@ const update = async () => {
           }
         "
       >
-      </DeleteChannel>
+      </DeleteChannelDialog>
     </GDialog>
   </div>
 </template>
