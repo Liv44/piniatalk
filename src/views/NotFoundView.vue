@@ -7,7 +7,7 @@ const router = useRouter();
 <template>
   <div class="notFound">
     <img src="../assets/404.png" alt="404" />
-    <h3>Vous n'avez pas accès à cette page</h3>
+    <h3>Pas si VITE ! Vous n'avez pas le droit de VUE sur cette page...</h3>
     <div class="notFoundButton">
       <button @click="() => router.push({ name: 'channel' })">
         Retourner à la page d'accueil
@@ -20,6 +20,7 @@ const router = useRouter();
 h3 {
   display: flex;
   justify-content: center;
+  color:white;
 }
 
 img {
